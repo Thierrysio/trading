@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Traders{% endblock %}
+
+{% block body %}
+  <h1>Liste des Traders</h1>
+  <ul>
+    {% for trader in traders %}
+      <li>
+        <a href="{{ path('trader_show', {'id': trader.id}) }}">
+          {{ trader.nom }} {{ trader.prenom }}
+        </a>
+      </li>
+    {% else %}
+      <li>Pas de traders trouvés.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
