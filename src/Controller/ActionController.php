@@ -20,26 +20,6 @@ class ActionController extends AbstractController
     // src/Controller/ActionController.php
 
 
- #[Route('/actions', name: 'actions_list')]
-    public function listActions(ActionRepository $actionRepository): Response
-    {
-        $actions = $actionRepository->findAll();
-
-        return $this->render('action/list.html.twig', [
-            'actions' => $actions,
-        ]);
-    }
-
-    #[Route('/action/{id}/cours-moyen', name: 'action_cours_moyen')]
-public function coursMoyen(Action $action): Response 
-{
-    $moyenne = $action->calculerCoursMoyen();
-
-    return $this->render('action/cours_moyen.html.twig', [
-        'action' => $action,
-        'moyenne' => $moyenne,
-    ]);
-}
 
 
 }
