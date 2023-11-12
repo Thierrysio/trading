@@ -3,6 +3,7 @@
 namespace App\Entity;
 use App\Entity\CoursAction;
 use App\Repository\ActionRepository;
+use App\Repository\TraderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -122,19 +123,9 @@ class Action
         return $this;
     }
 
-    public function calculerCoursMoyen(): float {
-        $coursActions = $this->lescoursaction;
-        $nombreCours = count($coursActions);
     
-        if ($nombreCours === 0) {
-            return 0.0;
-        }
-    
-        $totalPrix = 0;
-        foreach ($coursActions as $cours) {
-            $totalPrix += $cours->getPrix();
-        }
-    
-        return $totalPrix / $nombreCours;
-    }
 }
+
+
+
+

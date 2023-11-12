@@ -26,6 +26,9 @@ class Transaction
     #[ORM\ManyToOne(inversedBy: 'lestransactions')]
     private ?Action $laaction = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $Operation = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -75,6 +78,18 @@ class Transaction
     public function setLaaction(?Action $laaction): static
     {
         $this->laaction = $laaction;
+
+        return $this;
+    }
+
+    public function getOperation(): ?string
+    {
+        return $this->Operation;
+    }
+
+    public function setOperation(string $Operation): static
+    {
+        $this->Operation = $Operation;
 
         return $this;
     }

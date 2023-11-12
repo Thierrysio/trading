@@ -31,7 +31,8 @@ class ActionController extends AbstractController
     }
 
     #[Route('/action/{id}/cours-moyen', name: 'action_cours_moyen')]
-public function coursMoyen(Action $action): Response {
+public function coursMoyen(Action $action): Response 
+{
     $moyenne = $action->calculerCoursMoyen();
 
     return $this->render('action/cours_moyen.html.twig', [

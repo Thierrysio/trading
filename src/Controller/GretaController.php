@@ -15,13 +15,4 @@ class GretaController extends AbstractController
             'controller_name' => 'GretaController','prenom' => 'thierry'
         ]);
     }
-
-    #[Route('/trader/{id}', name: 'trader_show')]
-public function showTrader(Trader $trader): Response
-{
-    // Pas besoin de vérifier si le trader existe, Symfony s'en occupe
-    return $this->render('trader/show.html.twig', [
-        'trader' => $trader,
-    ]);
-}
 }
