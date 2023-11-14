@@ -158,9 +158,50 @@ class Action
 
         return $volumeTotal;
     }
-
     
+    /**
+     * Calcule le prix moyen d'achat pour cette action.
+     *
+     * @return float Le prix moyen d'achat ou 0 si aucune transaction d'achat n'est enregistrée.
+     */
+    public function getPrixMoyenAchat(): float
+    {
+        $totalPrix = 0;
+        $totalQuantite = 0;
+
+        foreach ($this->lestransactions as $transaction) {
+            if ($transaction->getOperation() === 'achat') {
+                // Trouver le cours de l'action pour la date de la transaction
+                $coursAction = $this->trouverCoursPourDate($transaction->getDatetransaction());
+                if ($coursAction) {
+                    $totalPrix += $coursAction->getPrix() * $transaction->getQuantite();
+                    $totalQuantite += $transaction->getQuantite();
+                }
+            }
+        }
+
+        return $totalQuantite > 0 ? $totalPrix / $totalQuantite : 0;
+    }
+
+    /**
+     * Trouve le cours de l'action pour une date donnée.
+     *
+     * @param \\DateTimeInterface $date La date de la transaction.
+     * @return CoursAction|null Le cours de l'action pour cette date, ou null si aucun cours n'est trouvé.
+     */
+    private function trouverCoursPourDate(\DateTimeInterface $date): ?CoursAction
+    {
+        foreach ($this->lescoursaction as $coursAction) {
+            if ($coursAction->getDatecoursaction()->format('Y-m-d') === $date->format('Y-m-d')) {
+                return $coursAction;
+            }
+        }
+
+        return null;
+    }
+
 }
+
 
 
 
