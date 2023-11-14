@@ -183,6 +183,44 @@ class Action
         return $totalQuantite > 0 ? $totalPrix / $totalQuantite : 0;
     }
 
+    public function getPrixMoyenVente(): float
+    {
+        $totalPrix = 0;
+        $totalQuantite = 0;
+
+        foreach ($this->lestransactions as $transaction) {
+            if ($transaction->getOperation() === 'vente') {
+                // Trouver le cours de l'action pour la date de la transaction
+                $coursAction = $this->trouverCoursPourDate($transaction->getDatetransaction());
+                if ($coursAction) {
+                    $totalPrix += $coursAction->getPrix() * $transaction->getQuantite();
+                    $totalQuantite += $transaction->getQuantite();
+                }
+            }
+        }
+
+        return $totalQuantite > 0 ? $totalPrix / $totalQuantite : 0;
+    }
+
+    public function getPrixMoyenAchatOuVente(string $monOperation): float
+    {
+        $totalPrix = 0;
+        $totalQuantite = 0;
+
+        foreach ($this->lestransactions as $transaction) {
+            if ($transaction->getOperation() === $monOperation) {
+                // Trouver le cours de l'action pour la date de la transaction
+                $coursAction = $this->trouverCoursPourDate($transaction->getDatetransaction());
+                if ($coursAction) {
+                    $totalPrix += $coursAction->getPrix() * $transaction->getQuantite();
+                    $totalQuantite += $transaction->getQuantite();
+                }
+            }
+        }
+
+        return $totalQuantite > 0 ? $totalPrix / $totalQuantite : 0;
+    }
+
     /**
      * Trouve le cours de l'action pour une date donnée.
      *
@@ -198,6 +236,40 @@ class Action
         }
 
         return null;
+    }
+
+    private function getPrixMoyenParOperation(string $typeOperation): float
+    {
+        $totalPrix = 0;
+        $totalQuantite = 0;
+
+        foreach ($this->lestransactions as $transaction) {
+            if ($transaction->getOperation() === $typeOperation) {
+                $coursAction = $this->trouverCoursPourDate($transaction->getDatetransaction());
+                if ($coursAction) {
+                    $totalPrix += $coursAction->getPrix() * $transaction->getQuantite();
+                    $totalQuantite += $transaction->getQuantite();
+                }
+            }
+        }
+
+        return $totalQuantite > 0 ? $totalPrix / $totalQuantite : 0;
+    }
+
+    /**
+     * Renvoie un tableau associatif avec le prix moyen des achats et des ventes.
+     *
+     * @return array Un tableau associatif contenant le prix moyen des achats et des ventes.
+     */
+    public function getPrixMoyens(): array
+    {
+        $prixMoyenAchats = $this->getPrixMoyenParOperation('achat');
+        $prixMoyenVentes = $this->getPrixMoyenParOperation('vente');
+
+        return [
+            'prix_moyen_achats' => $prixMoyenAchats,
+            'prix_moyen_ventes' => $prixMoyenVentes
+        ];
     }
 
 }
