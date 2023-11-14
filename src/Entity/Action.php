@@ -123,6 +123,42 @@ class Action
         return $this;
     }
 
+    /**
+     * Calcule le volume total des transactions pour cette action.
+     *
+     * @return int Le volume total des transactions.
+     */
+    public function getVolumeTotalTransactions(): int
+    {
+        $volumeTotal = 0;
+
+        foreach ($this->lestransactions as $transaction) {
+            $volumeTotal += $transaction->getQuantite();
+        }
+
+        return $volumeTotal;
+    }
+
+    public function getVolumeTotalTransactionsParDate(\DateTimeInterface $date): int
+    {
+        $volumeTotal = 0;
+
+        foreach ($this->lestransactions as $transaction) {
+            if ($transaction->getDatetransaction()->format('Y-m-d') === $date->format('Y-m-d')) {
+                $quantite = $transaction->getQuantite();
+                $operation = $transaction->getOperation();
+
+                if ($operation === 'achat') {
+                    $volumeTotal += $quantite;
+                } elseif ($operation === 'vente') {
+                    $volumeTotal -= $quantite;
+                }
+            }
+        }
+
+        return $volumeTotal;
+    }
+
     
 }
 
