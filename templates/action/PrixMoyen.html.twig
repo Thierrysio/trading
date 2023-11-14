@@ -1,0 +1,38 @@
+{# templates/action/PrixMoyen.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Prix Moyens{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1>Prix Moyens pour l'Action</h1>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Détails des Prix Moyens</h5>
+            {% if prixMoyens %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Type</th>
+                            <th scope="col">Prix Moyen</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Achats</th>
+                            <td>{{ prixMoyens.prix_moyen_achats|number_format(2, '.', ',') }} €</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Ventes</th>
+                            <td>{{ prixMoyens.prix_moyen_ventes|number_format(2, '.', ',') }} €</td>
+                        </tr>
+                    </tbody>
+                </table>
+            {% else %}
+                <p>Aucune donnée de prix moyens disponible.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -18,7 +18,25 @@ class ActionController extends AbstractController
         ]);
     }
     // src/Controller/ActionController.php
+    #[Route('/action/prixmoyens/{id}', name: 'action_prix_moyens')]
+    public function prixMoyens(ActionRepository $actionRepository, int $id): Response
+    {
+        // Récupérer l'entité Action
+        $action = $actionRepository->find($id);
 
+        // Vérifier si l'action existe
+        if (!$action) {
+            throw $this->createNotFoundException('Aucune action trouvée pour l\'id ' . $id);
+        }
+
+        // Calculer les prix moyens
+        $prixMoyens = $action->getPrixMoyens();
+
+        // Envoyer les données à Twig
+        return $this->render('action/PrixMoyen.html.twig', [
+            'prixMoyens' => $prixMoyens,
+        ]);
+    }
 
 
 
