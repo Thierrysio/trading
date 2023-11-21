@@ -93,4 +93,21 @@ class Transaction
 
         return $this;
     }
+    public function getCoursTransaction(): ?float
+    {
+        if (!$this->laaction) {
+            return null; // Aucune action associée à cette transaction
+        }
+
+        foreach ($this->laaction->getLescoursaction() as $coursAction)
+         {
+ if ($coursAction->getDatecoursaction()->format('Y-m-d') ===  $this->datetransaction->format('Y-m-d')) 
+            {
+                return $coursAction->getPrix();
+            }
+        }
+
+        return null; // Aucun cours correspondant trouvé
+    }
+
 }

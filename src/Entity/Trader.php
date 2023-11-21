@@ -87,4 +87,92 @@ class Trader
 
         return $this;
     }
+    // Dans la classe Trader
+
+/**
+ * Calcule le montant total investi par le trader.
+ *
+ * @return float Le montant total investi.
+ */
+public function calculerMontantTotalInvesti(): float
+{
+    $montantTotal = 0.0;
+
+    foreach ($this->lestransactions as $transaction) {
+        if ($transaction->getOperation() === 'achat') {
+            $prixAchat = $transaction->getCoursTransaction(); // Supposons que cette méthode renvoie le prix d'achat par action
+            $montantTotal += $prixAchat * $transaction->getQuantite();
+        }
+    }
+
+    return $montantTotal;
+}
+
+public function calculerValeurPortfolio(): float
+{
+    $soldeActions = [];
+
+    // Calculer le solde pour chaque action (achats - ventes)
+    foreach ($this->lestransactions as $transaction) {
+        $action = $transaction->getLaaction();
+        if (!$action) {
+            continue;
+        }
+
+        $actionId = $action->getId();
+        $quantite = $transaction->getQuantite();
+        $operation = $transaction->getOperation();
+
+        if (!isset($soldeActions[$actionId])) {
+            $soldeActions[$actionId] = 0;
+        }
+
+        if ($operation === 'achat') {
+            $soldeActions[$actionId] += $quantite;
+        } elseif ($operation === 'vente') {
+            $soldeActions[$actionId] -= $quantite;
+        }
+    }
+
+    // Calculer la valeur totale du portfolio
+    $valeurTotale = 0.0;
+    foreach ($soldeActions as $actionId => $solde) {
+        $action = // récupérer l'entité Action par son id
+        $dernierCours = $action->GetDernierPrixAction();
+        $valeurTotale += $dernierCours * $solde;
+    }
+
+    return $valeurTotale;
+}
+public function calculerValeurPortfolioDico(): float
+{
+    $soldeActions = [];
+
+    foreach ($this->lestransactions as $transaction) {
+        $action = $transaction->getLaaction();
+        if (!$action) {
+            continue;
+        }
+
+        if (!isset($soldeActions[$action])) {
+            $soldeActions[$action] = 0;
+        }
+
+        $quantite = $transaction->getQuantite();
+        if ($transaction->getOperation() === 'achat') {
+            $soldeActions[$action] += $quantite;
+        } elseif ($transaction->getOperation() === 'vente') {
+            $soldeActions[$action] -= $quantite;
+        }
+    }
+
+    $valeurTotale = 0.0;
+    foreach ($soldeActions as $action => $solde) {
+        $valeurTotale += $action->GetDernierPrixAction() * $solde;
+    }
+
+    return $valeurTotale;
+}
+
+
 }

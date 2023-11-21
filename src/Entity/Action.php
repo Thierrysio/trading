@@ -271,6 +271,70 @@ class Action
             'prix_moyen_ventes' => $prixMoyenVentes
         ];
     }
+    public function GetDernierPrixAction() : float
+    {
+        $resultat = 0.0;
+
+            foreach($this->$lescoursaction as $leCoursAction)
+            {
+                $resultat = $leCoursAction->getPrix();
+            }
+
+        return $resultat;
+
+    }
+
+    public function GetDernierPrixActionOneLine(int x) : float
+    {
+        return $this->lescoursaction[count($this->lescoursaction) - 1]->getPrix();
+        //    return $this->lescoursaction[x - 1]->getPrix();
+        //    return end($this->lescoursaction)->getPrix();
+
+
+    }
+
+    public function calculerVolumeAchats(\DateTimeInterface $debut, \DateTimeInterface $fin): int
+    {
+        $volumeTotal = 0;
+
+        foreach ($this->lestransactions as $transaction) {
+            // Vérifier si la transaction est un achat et si elle est dans la période donnée
+            if ($transaction->getOperation() === 'achat' &&
+                $transaction->getDatetransaction() >= $debut &&
+                $transaction->getDatetransaction() <= $fin) 
+                {
+                $volumeTotal += $transaction->getQuantite();
+            }
+        }
+
+        return $volumeTotal;
+    }
+
+    public function getPrixMoyen(string $operation):float
+    {
+        $resultat = 0.0;
+        $montant = 0;
+        $sommeDesQuantites = 0;
+
+        foreach($this->lestransactions as $laTransaction)
+        {
+            if($laTransaction->getOperation() === $operation)
+                {
+                    $montant += $laTransaction->getCoursTransaction() *  $laTransaction->getQuantite() ;
+                    $sommeDesQuantites += $laTransaction->getQuantite();
+
+                }
+        }
+
+        if ($sommeDesQuantites>0)
+        {
+            $resultat = $montant/$sommeDesQuantites;
+        }
+
+        return $resultat;
+    }
+
+
 
 }
 
