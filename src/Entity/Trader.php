@@ -144,7 +144,7 @@ public function calculerValeurPortfolio(): float
 
     return $valeurTotale;
 }
-public function calculerValeurPortfolioDico(): float
+public function calculerValeurPortfolio2(): float
 {
     $soldeActions = [];
 
@@ -154,21 +154,22 @@ public function calculerValeurPortfolioDico(): float
             continue;
         }
 
-        if (!isset($soldeActions[$action])) {
-            $soldeActions[$action] = 0;
+        $actionId = $action->getId();
+        if (!isset($soldeActions[$actionId])) {
+            $soldeActions[$actionId] = ['action' => $action, 'solde' => 0];
         }
 
         $quantite = $transaction->getQuantite();
         if ($transaction->getOperation() === 'achat') {
-            $soldeActions[$action] += $quantite;
+            $soldeActions[$actionId]['solde'] += $quantite;
         } elseif ($transaction->getOperation() === 'vente') {
-            $soldeActions[$action] -= $quantite;
+            $soldeActions[$actionId]['solde'] -= $quantite;
         }
     }
 
     $valeurTotale = 0.0;
-    foreach ($soldeActions as $action => $solde) {
-        $valeurTotale += $action->GetDernierPrixAction() * $solde;
+    foreach ($soldeActions as $actionInfo) {
+        $valeurTotale += $actionInfo['action']->GetDernierPrixAction() * $actionInfo['solde'];
     }
 
     return $valeurTotale;

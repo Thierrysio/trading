@@ -334,6 +334,25 @@ class Action
         return $resultat;
     }
 
+    public function getVolumeTransaction(string $param = null) :int
+    {
+        $volume = 0;
+        //$volume = count($this->$lestransactions);
+
+        foreach($this->lestransactions as $uneTransaction)
+        {
+           if($uneTransaction->getOperation() === $param || !$param )
+           {
+            $volume += $uneTransaction->getQuantite();
+           }
+           
+            
+        }
+
+
+        return $volume;
+    }
+
 
 
 }
