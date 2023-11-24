@@ -7,6 +7,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ActionRepository;
 use App\Entity\Action;
+use App\Entity\Trader;
+use App\Repository\TraderRepository;
 
 class ActionController extends AbstractController
 {
@@ -45,5 +47,14 @@ class ActionController extends AbstractController
         $volume = $action->getVolumeTransaction();
 
         return $this->render('action/volume.html.twig', ['leVolume' => $volume]);
+    }
+
+    #[Route('/action/getBilanGeneral', name:'app_bilan_general')] 
+    public function getBilanGeneral(TraderRepository $traderRepository, ActionRepository $actionRepository): Response
+    {
+       
+       
+        return $this->render('action/bilangeneral.html.twig', ['' => ]);
+
     }
 }
