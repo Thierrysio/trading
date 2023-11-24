@@ -110,4 +110,36 @@ class Transaction
         return null; // Aucun cours correspondant trouvé
     }
 
+    public function getCoursTransactionAuPlusProche(): ?float
+    {
+        $coursAuPlusProche = 0.00;
+
+        if (!$this->laaction) {
+            return null; // Aucune action associée à cette transaction
+        }
+        else{
+            $coursAuPlusProche = $this->laaction->getPrix();
+        }
+
+        foreach ($this->laaction->getLescoursaction() as $coursAction)
+         {
+            if ($coursAction->getDatecoursaction()->format('Y-m-d') ===  $this->datetransaction->format('Y-m-d')) 
+            {
+                return $coursAction->getPrix();
+            }
+            elseif($coursAction->getDatecoursaction()>$this->datetransaction)
+            {
+               return  $coursAuPlusProche;
+            }
+            else
+            {
+                $coursAuPlusProche = $coursAction->getPrix();
+            }
+
+        }
+
+        return $coursAuPlusProche; // Aucun cours correspondant trouvé
+    }
+
+
 }

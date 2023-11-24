@@ -275,7 +275,7 @@ class Action
     {
         $resultat = 0.0;
 
-            foreach($this->$lescoursaction as $leCoursAction)
+            foreach($this->lescoursaction as $leCoursAction)
             {
                 $resultat = $leCoursAction->getPrix();
             }
@@ -284,7 +284,7 @@ class Action
 
     }
 
-   /* public function GetDernierPrixActionOneLine(int x): float
+   /* public function GetDernierPrixActionOneLine(): float
     {
         return $this->lescoursaction[count($this->lescoursaction) - 1]->getPrix();
         //    return $this->lescoursaction[x - 1]->getPrix();
@@ -349,6 +349,53 @@ class Action
 
 
         return $volume;
+    }
+
+    public function getBilan(Trader $trader) :float
+    { 
+        $bilan = 0.00;
+
+        foreach($this->lestransactions as $uneTransaction)
+        {
+            if($uneTransaction->getLetrader() === $trader)
+            {
+                if($uneTransaction->getOperation() === "achat")
+                {
+                    $bilan += $uneTransaction->getQuantite()* $this->GetDernierPrixAction();
+                }
+                else
+                {
+                    $bilan -= $uneTransaction->getQuantite()* $this->GetDernierPrixAction();
+
+                }
+            }
+        }
+
+        return $bilan;
+
+    }
+
+    public function getBilanGeneral(Trader $trader) :float
+    { 
+        $bilan = 0.00;
+
+        foreach($this->lestransactions as $uneTransaction)
+        {
+            if($uneTransaction->getLetrader() === $trader)
+            {
+                if($uneTransaction->getOperation() === "achat")
+                {
+
+                    $bilan -= $uneTransaction->getQuantite()*$uneTransaction->getCoursTransactionAuPlusProche();
+                }
+                else
+                {
+                    $bilan += $uneTransaction->getQuantite()*$uneTransaction->getCoursTransactionAuPlusProche();
+
+                }
+            }
+        }
+        return $bilan;
     }
 
 
