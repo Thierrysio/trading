@@ -14,7 +14,7 @@ class ActionController extends AbstractController
     public function index(): Response
     {
         return $this->render('action/index.html.twig', [
-            'controller_name' => 'ActionController',
+            'controller_name' => 'katia',
         ]);
     }
     // src/Controller/ActionController.php
@@ -38,6 +38,12 @@ class ActionController extends AbstractController
         ]);
     }
 
+    #[Route('/action/getVolume', name:'app_volume')] 
+    public function getVolume(ActionRepository $actionRepository): Response
+    {
+        $action = $actionRepository->find(1);
+        $volume = $action->getVolumeTransaction();
 
-
+        return $this->render('action/volume.html.twig', ['leVolume' => $volume]);
+    }
 }

@@ -284,14 +284,14 @@ class Action
 
     }
 
-    public function GetDernierPrixActionOneLine(int x) : float
+   /* public function GetDernierPrixActionOneLine(int x): float
     {
         return $this->lescoursaction[count($this->lescoursaction) - 1]->getPrix();
         //    return $this->lescoursaction[x - 1]->getPrix();
         //    return end($this->lescoursaction)->getPrix();
 
 
-    }
+    }*/
 
     public function calculerVolumeAchats(\DateTimeInterface $debut, \DateTimeInterface $fin): int
     {
@@ -344,9 +344,7 @@ class Action
            if($uneTransaction->getOperation() === $param || !$param )
            {
             $volume += $uneTransaction->getQuantite();
-           }
-           
-            
+           }        
         }
 
 
