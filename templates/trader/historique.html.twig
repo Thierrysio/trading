@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes transactions{% endblock %}
+
+{% block body %}
+
+<h1>  {{ trader.getNom() }} {{  trader.getPrenom() }}  </h1>
+
+<table>
+    <tr>
+        <th>Date</th>
+        <th>Action</th>
+        <th>A/V</th>
+        <th>Quantité</th>
+        <th>Prix</th>
+        <th>Montant</th>
+    </tr>
+    
+{% for uneTransaction in trader.getHistoriqueTransaction() %}
+
+    <tr>
+        <td>{{ uneTransaction.getDatetransaction()|date('d/m/Y') }}
+</td>
+        <td>{{ uneTransaction.getLaaction().getNom() }}</td>
+        <td>A/V</td>
+        <td>100</td>
+        <td>10 €</td>
+        <td>1000 €</td>
+    </tr>
+  {%  endfor %}
+</table>
+
+{% endblock %}

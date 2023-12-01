@@ -49,12 +49,12 @@ class ActionController extends AbstractController
         return $this->render('action/volume.html.twig', ['leVolume' => $volume]);
     }
 
-    #[Route('/action/getBilanGeneral', name:'app_bilan_general')] 
-    public function getBilanGeneral(TraderRepository $traderRepository, ActionRepository $actionRepository): Response
+    #[Route('/action/getBilanGeneral/{r2}/{d2}', name:'app_bilan_general')] 
+    public function getBilanGeneral(Trader $r2,Action $d2): Response
     {
-       
-       
-        return $this->render('action/bilangeneral.html.twig', ['' => ]);
+
+        return $this->render('action/bilangeneral.html.twig',
+         ['trader' =>  $r2,'action' =>  $d2 ]);
 
     }
 }

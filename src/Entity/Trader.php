@@ -174,6 +174,18 @@ public function calculerValeurPortfolio2(): float
 
     return $valeurTotale;
 }
+public function getPerteEtProfit(): ?float
+{
+    $perteEtProfit = 0;
 
+    
+
+    return $perteEtProfit;
+}
+
+public function getHistoriqueTransaction():Collection
+{
+    return $this->lestransactions;
+}
 
 }

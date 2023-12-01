@@ -397,6 +397,35 @@ class Action
         }
         return $bilan;
     }
+    public function getCoursActionValide(\DateTimeInterface $maDate): ?float
+    {
+        $coursAuPlusProche = 0.00;
+
+        if(count($this->lescoursaction)==0)
+        {
+            return  $this->getPrix();
+        }
+
+        foreach($this->lescoursaction as $unCoursAction)
+        {
+            if($unCoursAction->getDatecoursaction()->format("Y-m-d") === $maDate->format("Y-m-d"))
+        {
+            return $unCoursAction->getPrix();
+        }
+        elseif($unCoursAction->getDatecoursaction()->format("Y-m-d")>$maDate->format("Y-m-d"))
+        {
+            return $coursAuPlusProche;
+        }
+        else
+        {
+            $coursAuPlusProche = $unCoursAction->getPrix();
+        }
+        
+        }
+        return $coursAuPlusProche;
+    }
+
+
 
 
 
