@@ -164,11 +164,11 @@ class Transaction
 
     public function verifierConformiteRisque(float $volatilite, int $qmax): ?bool
     {
-        $resultat = false;
 
+        if($this->laaction->calculerVolatilite() > $volatilite || $qmax > $this->quantite) 
+        return false;
 
-
-        return $resultat;
+        return true;
     }
 
 }
