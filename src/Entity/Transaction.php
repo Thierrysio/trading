@@ -143,12 +143,32 @@ class Transaction
 
     public function calculerRentabilite(): ?float
     {
-        $resultat = 0.00;
+       
 
+        $prixTransaction = $this->laaction->getCoursActionValide($this->datetransaction);
         
+        $coursActuel = $this->laaction->GetDernierPrixAction();
+
+        return $coursActuel - $prixTransaction;
+    }
+
+    public function getTypeTransaction(): ?string
+    {
+        return $this->Operation;
+    }
+
+    public function calculerMontantTotal(): ?float
+    {
+        return $this->laaction->getCoursActionValide($this->datetransaction) * $this->quantite;
+    }
+
+    public function verifierConformiteRisque(float $volatilite, int $qmax): ?bool
+    {
+        $resultat = false;
+
+
 
         return $resultat;
     }
-
 
 }

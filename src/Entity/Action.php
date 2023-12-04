@@ -425,6 +425,39 @@ class Action
         return $coursAuPlusProche;
     }
 
+    public function getCoursLePlusBas(): ?float
+    {
+        if ($this->lescoursaction->isEmpty()) {
+            return null; // Retourne null si aucun cours n'est disponible
+        }
+
+        $coursLePlusBas = null;
+
+        foreach ($this->lescoursaction as $cours) {
+            if ($coursLePlusBas === null || $cours->getPrix() < $coursLePlusBas) {
+                $coursLePlusBas = $cours->getPrix();
+            }
+        }
+
+        return $coursLePlusBas;
+    }
+
+    public function calculerVolatilite(): ?float
+    {
+        $coursLePlusBas = $this->getCoursLePlusBas();
+        $coursActuel = $this->GetDernierPrixAction();
+
+        if ($coursLePlusBas === null || $coursActuel === null) {
+            return null; // Retourne null si l'un des cours est indisponible
+        }
+
+        if ($coursLePlusBas == 0) {
+            return null; // Éviter la division par zéro
+        }
+
+        // Calcul de la volatilité comme la variation relative du cours actuel par rapport au cours le plus bas
+        return ($coursActuel - $coursLePlusBas) / $coursLePlusBas;
+    }
 
 
 
