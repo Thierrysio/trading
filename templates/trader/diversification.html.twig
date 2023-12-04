@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon portefeuille{% endblock %}
+
+{% block body %}
+
+<h1>  {{ trader.getNom() }} {{  trader.getPrenom() }}  </h1>
+
+<table>
+    <tr>
+        <th>Nom</th>
+        <th>Quantite</th>
+
+    </tr>
+    
+{% for nom,quantite in trader.getDiversificationPortfolio() %}
+
+    <tr>
+        <td>{{ nom }}</td>
+        <td>{{quantite }}</td>
+
+    </tr>
+  {%  endfor %}
+</table>
+
+{% endblock %}

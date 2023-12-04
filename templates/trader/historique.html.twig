@@ -19,13 +19,14 @@
 {% for uneTransaction in trader.getHistoriqueTransaction() %}
 
     <tr>
-        <td>{{ uneTransaction.getDatetransaction()|date('d/m/Y') }}
-</td>
+        <td>{{ uneTransaction.getDatetransaction()|date('d/m/Y') }}</td>
         <td>{{ uneTransaction.getLaaction().getNom() }}</td>
-        <td>A/V</td>
-        <td>100</td>
-        <td>10 €</td>
-        <td>1000 €</td>
+        <td>{{ uneTransaction.getOperation() }}</td>
+        <td>{{ uneTransaction.getQuantite() }}</td>
+        <td>{{ uneTransaction.getLaaction().getCoursActionValide(uneTransaction.getDatetransaction()) }}</td>
+        <td>{{ uneTransaction.getQuantite() 
+        * 
+        uneTransaction.getLaaction().getCoursActionValide(uneTransaction.getDatetransaction()) }} €</td>
     </tr>
   {%  endfor %}
 </table>

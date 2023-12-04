@@ -21,9 +21,13 @@ class TraderController extends AbstractController
     #[Route('/trader/historique/{id}', name: 'app_trader_historique')]
     public function traderhistorique(Trader $trader): Response
     {
-        return $this->render('trader/historique.html.twig', [
-            'trader' => $trader,
-        ]);
+        return $this->render('trader/historique.html.twig', [ 'trader' => $trader,  ]);
+    }
+   
+    #[Route('/trader/diversificationPortfolio/{id}', name: 'app_trader_diversification_Portfolio')]
+    public function diversificationPortfolio(Trader $trader): Response
+    {
+        return $this->render('trader/diversification.html.twig', [ 'trader' => $trader,  ]);
     }
     
 }

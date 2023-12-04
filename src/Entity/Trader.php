@@ -188,4 +188,33 @@ public function getHistoriqueTransaction():Collection
     return $this->lestransactions;
 }
 
+public function getDiversificationPortfolio(): array
+{
+    $Portfolio = [];
+
+    foreach ($this->lestransactions as $laTransaction)
+     {
+        if (array_key_exists( $laTransaction->getLaaction()->getNom(), $Portfolio))
+        {
+            if( $laTransaction->getOperation() === "achat")
+            {
+                $Portfolio[$laTransaction->getLaaction()->getNom()]+= $laTransaction->getQuantite();
+            }
+            else
+            {
+                $Portfolio[$laTransaction->getLaaction()->getNom()]-= $laTransaction->getQuantite();
+            }
+        }
+        else
+        {
+            $Portfolio[$laTransaction->getLaaction()->getNom()]= $laTransaction->getQuantite();
+
+        }
+     }
+    
+    return $Portfolio;
+
+}
+
+
 }

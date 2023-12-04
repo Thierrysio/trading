@@ -141,5 +141,14 @@ class Transaction
         return $coursAuPlusProche; // Aucun cours correspondant trouvé
     }
 
+    public function calculerRentabilite(): ?float
+    {
+        $resultat = 0.00;
+
+        
+
+        return $resultat;
+    }
+
 
 }
