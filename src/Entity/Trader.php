@@ -215,11 +215,51 @@ public function getDiversificationPortfolio(): array
     return $Portfolio;
 
 }
+public function getVolumeTotalTransactions(): int
+    {
+        $volumeTotal = 0;
+
+        foreach ($this->lestransactions as $transaction)
+         {
+            if($transaction->getOperation	() === "achat")
+            {
+                $volumeTotal += $transaction->getQuantite();  
+            }
+            else
+            {
+                $volumeTotal -= $transaction->getQuantite();
+
+            }
+     
+        }
+
+        return $volumeTotal;
+    }
+    public function getVolumeTotalTransactionsParAction(Action $action): int
+    {
+        $volumeTotal = 0;
+
+        foreach ($this->lestransactions as $transaction)
+         {
+                if($transaction->getLaaction()===$action)
+                {
+                    if($transaction->getOperation	() === "achat")
+                        {
+                            $volumeTotal += $transaction->getQuantite();  
+                        }
+                    else
+                        {
+                            $volumeTotal -= $transaction->getQuantite();
+
+                        }
+            }
+        }
+
+        return $volumeTotal;
+    }
 public function GetProportionAction(Action $action): float
 {
-
-    
-    return 0.00;
+    return $this->getVolumeTotalTransactionsParAction($action)/$this->getVolumeTotalTransactions();
 }
 
 }

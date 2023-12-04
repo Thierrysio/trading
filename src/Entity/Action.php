@@ -133,6 +133,7 @@ class Action
         $volumeTotal = 0;
 
         foreach ($this->lestransactions as $transaction) {
+     
             $volumeTotal += $transaction->getQuantite();
         }
 
