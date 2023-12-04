@@ -164,11 +164,15 @@ class Transaction
 
     public function verifierConformiteRisque(float $volatilite, int $qmax): ?bool
     {
-
         if($this->laaction->calculerVolatilite() > $volatilite || $qmax > $this->quantite) 
         return false;
 
         return true;
+    }
+    //Cette methode ne doit etre appelée qu'apres la transaction
+    public function evaluerImpactDiversification():float
+    {
+        return $this->letrader->GetProportionAction($this->laaction);
     }
 
 }

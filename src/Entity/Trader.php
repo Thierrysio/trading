@@ -215,6 +215,11 @@ public function getDiversificationPortfolio(): array
     return $Portfolio;
 
 }
+public function GetProportionAction(Action $action): float
+{
 
+    
+    return 0.00;
+}
 
 }
