@@ -460,9 +460,37 @@ class Action
         return ($coursActuel - $coursLePlusBas) / $coursLePlusBas;
     }
 
+    public function getCoursMax() : ?float
+    {
+        $resultat = 0.00;
+        foreach($this->lescoursaction as $unCoursAction)
+        {
+            if($unCoursAction->getPrix()>$resultat)
+            {
+                $resultat = $unCoursAction->getPrix();
+            }
+        }
+        return $resultat;
+    }
 
-
-
+    public function getMoyenneMobile(\DateTimeInterface $param1,\DateTimeInterface $param2) :?float
+    {
+        $resultat=0.0;
+        $compte = 0;
+        foreach($this->lescoursaction as $unCoursAction)
+        {
+            if($unCoursAction->getDatecoursaction() < $param1 && $unCoursAction->getDatecoursaction() > $param2)
+            {
+                $compte++;
+                $resultat += $unCoursAction->getPrix();
+            }
+        }
+        if($compte==0)
+        {
+            return null;
+        } 
+        return $resultat/$compte;
+    }
 }
 
 

@@ -63,4 +63,34 @@ class CoursAction
 
         return $this;
     }
+    public function calculerVariationJournaliere(): ?float
+{
+    // 1 1 - retouver le cours d'hier
+    //$dateHier = (clone $this->datecoursaction)->sub(new \DateInterval('P1D'));
+    $dateHier = (clone $this->datecoursaction)->modify('-1 day');
+
+   
+    $coursHier = $this->laaction->getCoursActionValide($dateHier);
+    
+    if ($coursHier === null || $coursHier == 0) {
+        return null; // Retourne null si les données de la veille ne sont pas disponibles ou si le cours est O
+    }
+
+    return (($this->prix - $coursHier) / $coursHier) * 100;
+
+}
+
+public function getPlusHautPrixHistorique() : bool
+{
+    return $this->laaction->getCoursMax() == $this->prix;
+}
+
+public function comparerAvecMoyenneMobile(int $param) : bool
+{
+
+    return $this->prix >= $this->laaction->getMoyenneMobile($this->datecoursaction,
+    (clone $this->datecoursaction)->modify('-'.$param.' day'));
+
+}
+
 }

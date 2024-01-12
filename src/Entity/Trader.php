@@ -24,9 +24,13 @@ class Trader
     #[ORM\OneToMany(mappedBy: 'letrader', targetEntity: Transaction::class)]
     private Collection $lestransactions;
 
+    #[ORM\OneToMany(mappedBy: 'leTrader', targetEntity: MotDePasse::class)]
+    private Collection $lesMotsDePasse;
+
     public function __construct()
     {
         $this->lestransactions = new ArrayCollection();
+        $this->lesMotsDePasse = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -250,7 +254,6 @@ public function getVolumeTotalTransactions(): int
                     else
                         {
                             $volumeTotal -= $transaction->getQuantite();
-
                         }
             }
         }
@@ -260,6 +263,51 @@ public function getVolumeTotalTransactions(): int
 public function GetProportionAction(Action $action): float
 {
     return $this->getVolumeTotalTransactionsParAction($action)/$this->getVolumeTotalTransactions();
+}
+
+/**
+ * @return Collection<int, MotDePasse>
+ */
+public function getLesMotsDePasse(): Collection
+{
+    return $this->lesMotsDePasse;
+}
+
+public function addLesMotsDePasse(MotDePasse $lesMotsDePasse): static
+{
+    if (!$this->lesMotsDePasse->contains($lesMotsDePasse)) {
+        $this->lesMotsDePasse->add($lesMotsDePasse);
+        $lesMotsDePasse->setLeTrader($this);
+    }
+
+    return $this;
+}
+
+public function removeLesMotsDePasse(MotDePasse $lesMotsDePasse): static
+{
+    if ($this->lesMotsDePasse->removeElement($lesMotsDePasse)) {
+        // set the owning side to null (unless already changed)
+        if ($lesMotsDePasse->getLeTrader() === $this) {
+            $lesMotsDePasse->setLeTrader(null);
+        }
+    }
+
+    return $this;
+}
+
+public function ExisteMotDePasse(string $motDePasse) : bool
+{
+    $resultat = false;
+
+    foreach($this->lesMotsDePasse as $leMotDePasse)
+    {
+        if($leMotDePasse->getNom()==$motDePasse) 
+        {
+            $resultat = true;
+        }
+
+    }
+    return $resultat;
 }
 
 }
