@@ -68,23 +68,23 @@ class MotDePasse
     {
         $resultat =  false;
 // Calculer la longueur du mot de passe
-$longueur = strlen($motDePasse);
+$longueur = strlen($nom);
 
 // Compter le nombre de majuscules en utilisant une expression régulière
 // [A-Z] correspond à n'importe quelle lettre majuscule de l'alphabet anglais
-$majuscules = preg_match_all('/[A-Z]/', $motDePasse);
+$majuscules = preg_match_all('/[A-Z]/', $nom);
 
 // Compter le nombre de minuscules
 // [a-z] correspond à n'importe quelle lettre minuscule de l'alphabet anglais
-$minuscules = preg_match_all('/[a-z]/', $motDePasse);
+$minuscules = preg_match_all('/[a-z]/', $nom);
 
 // Compter le nombre de chiffres
 // \d est un raccourci pour [0-9], qui correspond à n'importe quel chiffre
-$chiffres = preg_match_all('/\d/', $motDePasse);
+$chiffres = preg_match_all('/\d/', $nom);
 
 // Compter le nombre de caractères spéciaux
 // \W correspond à tout caractère qui n'est pas un mot (non-lettres, non-chiffres et non-underscore)
-$caracteresSpeciaux = preg_match_all('/\W/', $motDePasse);
+$caracteresSpeciaux = preg_match_all('/\W/', $nom);
 
 // Vérifier si tous les critères sont remplis
 if ($longueur >= 12 && $majuscules >= 1 && $minuscules >= 3 && $chiffres >= 4 && $caracteresSpeciaux >= 1) {

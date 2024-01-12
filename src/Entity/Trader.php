@@ -310,4 +310,36 @@ public function ExisteMotDePasse(string $motDePasse) : bool
     return $resultat;
 }
 
+public function GenererNewMotDePasse($motdepasse) : bool
+{
+    // Création d'une nouvelle instance de la classe MotDePasse
+    $newObjet = new MotDePasse();
+
+    // Définition du nom (dans ce cas, il s'agit du mot de passe) de l'objet
+    $newObjet->setNom($motdepasse);
+
+    // Vérification de deux conditions :
+    // 1. Le mot de passe répond-il aux critères définis dans la méthode verifierMdp() de l'objet MotDePasse ?
+    // 2. Le mot de passe n'existe pas déjà (vérifié par la méthode ExisteMotDePasse).
+    if ($newObjet->verifierMdp() && $this->ExisteMotDePasse($motdepasse) == false)
+    {
+        // Si les deux conditions sont remplies, définir la date actuelle pour l'objet.
+        // Ici, on utilise la classe \DateTime de PHP pour obtenir la date et l'heure actuelles.
+        $newObjet->setDate(new \DateTime());
+
+        // Retourne true pour indiquer que le nouveau mot de passe a été accepté et généré.
+        return true;
+    }
+    else
+    {
+        // Si l'une des conditions n'est pas remplie (mot de passe invalide ou déjà existant),
+        // détruit l'objet en affectant null à la variable $newObjet.
+        $newObjet = null;
+
+        // Retourne false pour indiquer que le mot de passe n'a pas été accepté.
+        return false;
+    }
+}
+
+
 }
