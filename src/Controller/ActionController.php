@@ -8,7 +8,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ActionRepository;
 use App\Entity\Action;
 use App\Entity\Trader;
+use App\Entity\Journalisation;
 use App\Repository\TraderRepository;
+use Doctrine\ORM\EntityManagerInterface;
 
 class ActionController extends AbstractController
 {
@@ -21,8 +23,30 @@ class ActionController extends AbstractController
     }
     // src/Controller/ActionController.php
     #[Route('/action/prixmoyens/{id}', name: 'action_prix_moyens')]
-    public function prixMoyens(ActionRepository $actionRepository, int $id): Response
+    public function prixMoyens(ActionRepository $actionRepository, int $id,EntityManagerInterface $manager): Response
     {
+        // Journaliser IP  IDUSER  DATE CIBLE ECHEC
+        // $user_ip = $_SERVER['REMOTE_ADDR'];
+        // $_SERVER['HTTP_X_FORWARDED_FOR'] - cette methode est falsifiable
+        // entity : Journalisation
+
+        // Recuperer les donnees
+        $user_ip = $_SERVER['REMOTE_ADDR'];
+        $user = $this->getUser();
+         if ($user) {
+            $userId = $user->getId();
+            
+        }
+        $date_actuelle = date("Y-m-d");
+        $cible = "PrixMoyen.html.twig";
+        $echec = false;
+
+    // Creer un objet journalisation
+    $journalisation = new Journalisation();
+
+
+
+
         // Récupérer l'entité Action
         $action = $actionRepository->find($id);
 
@@ -38,6 +62,7 @@ class ActionController extends AbstractController
         return $this->render('action/PrixMoyen.html.twig', [
             'prixMoyens' => $prixMoyens,
         ]);
+
     }
 
     #[Route('/action/getVolume', name:'app_volume')] 
