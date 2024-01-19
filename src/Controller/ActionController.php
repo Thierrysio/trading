@@ -43,7 +43,7 @@ class ActionController extends AbstractController
 
     // Creer un objet journalisation
     $journalisation = new Journalisation();
-
+    $journalisation->IdUser = $userId;
 
 
 
