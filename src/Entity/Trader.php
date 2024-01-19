@@ -6,6 +6,7 @@ use App\Repository\TraderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Utilitaires\UtilTrader;
 
 #[ORM\Entity(repositoryClass: TraderRepository::class)]
 class Trader
@@ -219,6 +220,31 @@ public function getDiversificationPortfolio(): array
     return $Portfolio;
 
 }
+public function getVolumeTotalTransactionsAchat(): int
+    {
+        $volumeTotal = 0;
+
+        foreach ($this->lestransactions as $transaction)
+         {
+            if($transaction->getOperation	() === "achat")
+            {
+                $volumeTotal += $transaction->getQuantite();  
+            }
+     
+        }
+
+        return $volumeTotal;
+    }
+
+    public function suisJeLeMaillonFaible(UtilTrader $leUtilTrader):bool
+    {
+        if($this == $leUtilTrader->getMaillonFaible())
+        {
+            return true;
+        }
+        return false;
+
+    }
 public function getVolumeTotalTransactions(): int
     {
         $volumeTotal = 0;

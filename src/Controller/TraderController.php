@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\TraderRepository;
 use App\Entity\Trader;
+use App\Utilitaires\UtilTrader;
 
 class TraderController extends AbstractController
 {
@@ -28,6 +29,16 @@ class TraderController extends AbstractController
     public function diversificationPortfolio(Trader $trader): Response
     {
         return $this->render('trader/diversification.html.twig', [ 'trader' => $trader,  ]);
+    }
+
+    #[Route('/trader/testmaillon', name: 'app_testmaillon')]
+    public function testmaillon(TraderRepository $traderRepository,UtilTrader $leUtilTrader): Response
+    {
+        $leTrader = $traderRepository->find(1);
+        $lemaillonFaible = $leUtilTrader->getMaillonFaible(); 
+
+dd($lemaillonFaible);
+        return $this->render('trader/testmaillon.html.twig');
     }
     
 }

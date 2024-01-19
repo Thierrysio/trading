@@ -23,8 +23,10 @@ class ActionController extends AbstractController
     }
     // src/Controller/ActionController.php
     #[Route('/action/prixmoyens/{id}', name: 'action_prix_moyens')]
+    
     public function prixMoyens(ActionRepository $actionRepository, int $id,EntityManagerInterface $manager): Response
     {
+        
         // Journaliser IP  IDUSER  DATE CIBLE ECHEC
         // $user_ip = $_SERVER['REMOTE_ADDR'];
         // $_SERVER['HTTP_X_FORWARDED_FOR'] - cette methode est falsifiable
@@ -37,7 +39,7 @@ class ActionController extends AbstractController
             $userId = $user->getId();
             
         }
-        $date_actuelle = date("Y-m-d");
+        $date_actuelle = new \DateTime();
         $cible = "PrixMoyen.html.twig";
         $echec = false;
 
@@ -51,7 +53,10 @@ class ActionController extends AbstractController
     $journalisation->setCible($cible);
     $journalisation->setEchec($echec);
 
-    
+
+    $manager->persist($journalisation);
+    $manager->flush();
+
 
 
 
