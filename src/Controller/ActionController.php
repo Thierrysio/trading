@@ -51,6 +51,9 @@ class ActionController extends AbstractController
     $journalisation->setCible($cible);
     $journalisation->setEchec($echec);
 
+    
+
+
 
         // Récupérer l'entité Action
         $action = $actionRepository->find($id);
