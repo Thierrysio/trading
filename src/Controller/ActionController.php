@@ -43,8 +43,13 @@ class ActionController extends AbstractController
 
     // Creer un objet journalisation
     $journalisation = new Journalisation();
-    $journalisation->IdUser = $userId;
-
+    $journalisation->setIp($user_ip);
+    if ($user) {
+    $journalisation->setIdUser($userId);   
+    }
+    $journalisation->setDate($date_actuelle);
+    $journalisation->setCible($cible);
+    $journalisation->setEchec($echec);
 
 
         // Récupérer l'entité Action
